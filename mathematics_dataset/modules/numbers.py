@@ -109,13 +109,13 @@ def place_value(value, sample_args, context=None):
   integer_as_string = str(integer)
   num_digits = len(integer_as_string)
 
-  firsts = ['', 'ten ', 'hundred ']
+  firsts = ['', 'puluh ', 'ratus ']
   seconds = [
-      'thousands', 'millions', 'billions', 'trillions', 'quadrillions',
-      'quintillions', 'sextillions', 'septillions', 'octillions', 'nonillions',
-      'decillions',
+      'ribu', 'juta', 'milyar', 'triliun', 'kuadriliun ',
+      'kuintiliun', 'sekstiliun', 'septiliun', 'oktilliun', 'nonilliun',
+      'desiliun',
   ]
-  place_names = ['units', 'tens', 'hundreds']
+  place_names = ['unit', 'ribuan', 'ratusan']
   for second in seconds:
     for first in firsts:
       place_names.append(first + second)
@@ -127,7 +127,7 @@ def place_value(value, sample_args, context=None):
   return example.Problem(
       question=example.question(
           context,
-          'What is the {place_name} digit of {integer}?',
+          'Berapa digit {place_name} dari {integer}?',
           place_name=place_name, integer=entity.expression_else_handle),
       answer=answer)
 
@@ -178,14 +178,14 @@ def round_number(value, sample_args, context=None):
       # Write the rounding value as a word instead.
       round_to = display.StringNumber(round_to,
                                       join_number_words_with_hyphens=False)
-    description = 'the nearest {round_to}'.format(round_to=round_to)
+    description = 'paling dekat {round_to}'.format(round_to=round_to)
   elif power == 0 and random.choice([False, True]):
     # Round to nearest integer.
-    description = 'the nearest integer'
+    description = 'bilangan terdekat'
   else:
     # Round to decimal places.
-    description = random.choice(['{dps} decimal place', '{dps} dp'])
-    if power != -1:
+    description = random.choice(['{dps} desimal'])
+    if False: # no plural indonesia
       # Plural
       description += 's'
     dps = -power
@@ -194,8 +194,8 @@ def round_number(value, sample_args, context=None):
     description = description.format(dps=dps)
 
   template = random.choice([
-      'Round {input} to {description}.',
-      'What is {input} rounded to {description}?',
+      'Bulatkan {input} ke {description}.',
+      'Berapakah {input} dibulatkan menjadi {description}?',
   ])
 
   return example.Problem(
@@ -248,14 +248,14 @@ def is_prime(value, sample_args, context=None):
 
   if random.choice([False, True]) and integer != 1:
     answer = not is_prime_
-    attribute_name = random.choice(['composite', 'a composite number'])
+    attribute_name = random.choice(['komposit', 'bilangan komposit'])
   else:
     answer = is_prime_
-    attribute_name = random.choice(['prime', 'a prime number'])
+    attribute_name = random.choice(['prima', 'bilangan prima'])
 
   return example.Problem(
       question=example.question(
-          context, 'Is {integer} {attribute}?',
+          context, 'Apakah {integer} {attribute}?',
           integer=integer_entity.expression_else_handle,
           attribute=attribute_name),
       answer=answer)
@@ -282,13 +282,13 @@ def is_factor(value, sample_args, context=None):
   (entity,) = context.sample(sample_args, [integer])
 
   templates = [
-      'Is {maybe_factor} a factor of {value}?',
-      'Is {value} a multiple of {maybe_factor}?',
-      'Does {maybe_factor} divide {value}?',
+      'Apakah {maybe_factor} merupakan faktor dari {value}?',
+      'Apakah {value} adalah kelipatan dari {maybe_factor}?',
+      'Apakah {maybe_factor} membagi {value}?',
   ]
   if maybe_factor == 2:
     templates += [
-        'Is {value} even?',
+        'Apakah {value} genap?',
     ]
   template = random.choice(templates)
 
@@ -314,8 +314,8 @@ def list_prime_factors(value, sample_args, context=None):
   (entity,) = context.sample(sample_args, [integer])
   prime_factors = sorted(sympy.factorint(integer).keys())
   template = random.choice([
-      'What are the prime factors of {integer}?',
-      'List the prime factors of {integer}.',
+      'Apa faktor prima dari {integer}?',
+      'Sebutkan faktor prima dari {integer}.',
   ])
   return example.Problem(
       question=example.question(
@@ -353,10 +353,10 @@ def lcm(value, sample_args, context=None):
   if random.choice([False, True]):
     p, q = context.sample(sample_args, [p, q])
     # Ask the question directly.
-    adjective = random.choice(['least', 'lowest', 'smallest'])
+    adjective = random.choice(['paling sedikit', 'paling rendah', 'paling kecil'])
     template = random.choice([
-        'Calculate the {adjective} common multiple of {p} and {q}.',
-        'What is the {adjective} common multiple of {p} and {q}?',
+        'Hitung kelipatan persekutuan {adjective} dari {p} dan {q}.',
+        'Berapa {adjective} kelipatan persekutuan dari {p} dan {q}?',
     ])
     return example.Problem(
         question=example.question(
@@ -370,9 +370,9 @@ def lcm(value, sample_args, context=None):
     p, q = context.sample(sample_args, [p, q])
 
     template = random.choice([
-        'What is the common denominator of {p} and {q}?',
-        'Find the common denominator of {p} and {q}.',
-        'Calculate the common denominator of {p} and {q}.',
+        'Berapa penyebut dari {p} dan {q}?',
+        'Temukan penyebut yang sama dari {p} dan {q}.',
+        'Hitung penyebut dari {p} dan {q}.',
     ])
     return example.Problem(
         question=example.question(
@@ -426,13 +426,13 @@ def gcd(value, sample_args, context=None):
 
   p, q = context.sample(sample_args, [p, q])
 
-  adjective = (random.choice(['greatest', 'highest']) + ' common '
-               + random.choice(['divisor', 'factor']))
+  adjective = (random.choice(['pembagi persekutuan', 'faktor umum'])
+               + random.choice([' terbesar', ' tertinggi']))
 
   if is_question:
     template = random.choice([
-        'Calculate the {adjective} of {p} and {q}.',
-        'What is the {adjective} of {p} and {q}?',
+        'Hitung {adjective} dari {p} dan {q}.',
+        'Apa {adjective} dari {p} dan {q}?',
     ])
     return example.Problem(
         question=example.question(
@@ -442,7 +442,7 @@ def gcd(value, sample_args, context=None):
     return composition.Entity(
         context=context,
         value=value,
-        description='Let {self} be the {adjective} of {p} and {q}.',
+        description='Biarkan {self} menjadi {adjective} dari {p} dan {q}.',
         adjective=adjective, p=p, q=q)
 
 
@@ -470,8 +470,8 @@ def div_remainder(value, sample_args, context=None):
 
   if is_question:
     template = random.choice([
-        'Calculate the remainder when {p} is divided by {q}.',
-        'What is the remainder when {p} is divided by {q}?',
+        'Hitung sisanya ketika {p} dibagi dengan {q}.',
+        'Berapa sisa jika {p} dibagi dengan {q}?',
     ])
     return example.Problem(
         question=example.question(
@@ -482,7 +482,7 @@ def div_remainder(value, sample_args, context=None):
     return composition.Entity(
         context=context,
         value=value,
-        description='Let {self} be the remainder when {p} is divided by {q}.',
+        description='Biarkan {self} menjadi sisa saat {p} dibagi dengan {q}.',
         p=p, q=q)
 
 
@@ -503,9 +503,9 @@ def base_conversion(min_entropy, max_entropy):
 
   value = number.integer(entropy, signed=True)
   template = random.choice([
-      '{from_str} (base {from_base}) to base {to_base}',
-      'Convert {from_str} (base {from_base}) to base {to_base}.',
-      'What is {from_str} (base {from_base}) in base {to_base}?',
+      '{from_str} (basis {from_base}) ke basis {to_base}',
+      'Ubah {from_str} (basis {from_base}) menjadi basis {to_base}.',
+      'Apa {from_str} (basis {from_base}) di basis {to_base}?',
   ])
   return example.Problem(
       question=example.question(

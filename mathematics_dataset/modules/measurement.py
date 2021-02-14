@@ -71,53 +71,45 @@ LENGTH = {
     Unit('kilometer', 'km'): 1000,
     Unit('centimeter', 'cm'): sympy.Rational(1, 100),
     Unit('millimeter', 'mm'): sympy.Rational(1, 1000),
-    Unit('micrometer', 'um'): sympy.Rational(1, 1e6),
+    Unit('mikrometer', 'um'): sympy.Rational(1, 1e6),
     Unit('nanometer', 'nm'): sympy.Rational(1, 1e9),
 }
 
 TIME = {
-    Unit('second', 's'): 1,
-    Unit('minute', None): 60,
-    Unit('hour', None): 60*60,
-    Unit('day', None): 24*60*60,
-    Unit('week', None): 7*24*60*60,
-    Unit('millisecond', 'ms'): sympy.Rational(1, 1e3),
-    Unit('microsecond', MICRO_SYMBOL + 's'): sympy.Rational(1, 1e6),
-    Unit('nanosecond', 'ns'): sympy.Rational(1, 1e9),
+    Unit('detik', 's'): 1,
+    Unit('menit', None): 60,
+    Unit('jam', None): 60*60,
+    Unit('hari', None): 24*60*60,
+    Unit('minggu', None): 7*24*60*60,
+    Unit('milidetik', 'ms'): sympy.Rational(1, 1e3),
+    Unit('mikrodetik', MICRO_SYMBOL + 's'): sympy.Rational(1, 1e6),
+    Unit('nanodetik', 'ns'): sympy.Rational(1, 1e9),
 }
 
 TIME_YEARLY = {
-    Unit('year', None): 1,
-    Unit('decade', None): 10,
-    Unit('century', None): 100,
-    Unit('millennium', None): 1000,
-    Unit('month', None): sympy.Rational(1, 12),
+    Unit('tahun', None): 1,
+    Unit('dekade', None): 10,
+    Unit('abad', None): 100,
+    Unit('milenium', None): 1000,
+    Unit('bulan', None): sympy.Rational(1, 12),
 }
 
 MASS = {
     Unit('kilogram', 'kg'): 1,  # Yes, the *kilo*gram is the SI base unit.
-    Unit('tonne', 't'): 1000,
+    Unit('ton', 't'): 1000,
     Unit('gram', 'g'): sympy.Rational(1, 1e3),
     Unit('milligram', 'mg'): sympy.Rational(1, 1e6),
-    Unit('microgram', MICRO_SYMBOL + 'g'): sympy.Rational(1, 1e9),
+    Unit('mikrogram', MICRO_SYMBOL + 'g'): sympy.Rational(1, 1e9),
     Unit('nanogram', 'ng'): sympy.Rational(1, 1e12),
 }
 
 VOLUME = {
-    Unit('litre', 'l'): 1,
-    Unit('millilitre', 'ml'): sympy.Rational(1, 1000),
+    Unit('liter', 'l'): 1,
+    Unit('mililiter', 'ml'): sympy.Rational(1, 1000),
 }
 
 
 DIMENSIONS = [LENGTH, TIME, TIME_YEARLY, MASS, VOLUME]
-
-
-def pluralize(name):
-  if name == 'century':
-    return 'centuries'
-  if name == 'millennium':
-    return 'millennia'
-  return name + 's'
 
 
 def _factor_non_decimal(value):
@@ -152,20 +144,20 @@ def _conversion_decimal(context, is_train, is_extrapolation):
       break
 
   templates = [
-      'How many {target_name} are there in {base_value} {base_name}?',
-      'What is {base_value} {base_name} in {target_name}?',
-      'Convert {base_value} {base_name} to {target_name}.',
+      'Ada berapa {target_name} di {base_value} {base_name}?',
+      'Apa {base_value} {base_name} dalam {target_name}?',
+      'Ubah {base_value} {base_name} to {target_name}.',
   ]
   if base_unit.symbol is not None:
     templates += [
-        'How many {target_name} are there in {base_value}{base_symbol}?',
-        'What is {base_value}{base_symbol} in {target_name}?',
-        'Convert {base_value}{base_symbol} to {target_name}.',
+        'Ada berapa {target_name} di {base_value}{base_symbol}?',
+        'Apa {base_value}{base_symbol} dalam {target_name}?',
+        'Ubah {base_value}{base_symbol} ke {target_name}.',
     ]
   template = random.choice(templates)
 
-  base_name = pluralize(base_unit.name)
-  target_name = pluralize(target_unit.name)
+  base_name = base_unit.name # Indonesia no have plural stuff
+  target_name = target_unit.name # Indonesia no have plural stuff
 
   question = example.question(
       context,
@@ -199,8 +191,8 @@ def _conversion_fraction(context, is_train):
       break
 
   template = random.choice([
-      'How many {target_name} are there in {base_value} of a {base_name}?',
-      'What is {base_value} of a {base_name} in {target_name}?',
+      'Ada berapa {target_name} di {base_value} dari sebuah {base_name}?',
+      'Berapa {base_value} dari {base_name} di {target_name}?',
   ])
 
   if sympy.denom(base_value) > 20 or random.choice([False, True]):
@@ -212,7 +204,7 @@ def _conversion_fraction(context, is_train):
       context, template,
       base_name=base_unit.name,
       base_value=base_value_string,
-      target_name=pluralize(target_unit.name))
+      target_name=target_unit.name)
   return example.Problem(question=question, answer=answer)
 
 
@@ -252,7 +244,7 @@ def time(is_train):
   if which_question == 0:
     # Question: What is start = end - duration?
     template = random.choice([
-        'What is {duration} minutes before {end}?',
+        'Berapa {duration} menit sebelum {end}?',
     ])
     return example.Problem(
         question=example.question(
@@ -261,7 +253,7 @@ def time(is_train):
   elif which_question == 1:
     # Question: What is end = start + duration?
     template = random.choice([
-        'What is {duration} minutes after {start}?',
+        'Berapa {duration} menit setelah {start}?',
     ])
     return example.Problem(
         question=example.question(
@@ -270,7 +262,7 @@ def time(is_train):
   else:
     # Question: What is duration = end - start?
     template = random.choice([
-        'How many minutes are there between {start} and {end}?',
+        'Berapa menit antara {start} dan {end}?',
     ])
     return example.Problem(
         question=example.question(context, template, start=start, end=end),

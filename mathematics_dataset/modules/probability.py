@@ -48,7 +48,7 @@ _SWR_SAMPLE_COUNT = [2, 4]
 _SWR_SAMPLE_COUNT_EXTRAPOLATE = [5, 5]
 
 _GERUNDS = {
-    'pick': 'picking',
+    'pick': 'pilihan',
 }
 
 
@@ -103,7 +103,7 @@ def _sequence_event(values, length, verb):
   events = [probability.DiscreteEvent([sample]) for sample in samples]
   event = probability.FiniteProductEvent(events)
   sequence = ''.join(str(sample) for sample in samples)
-  event_description = 'sequence {sequence}'.format(sequence=sequence)
+  event_description = 'urutan {sequence}'.format(sequence=sequence)
   return event, event_description
 
 
@@ -200,7 +200,7 @@ def _swr_space(is_train, sample_range):
 
   random_variable.description = (
       str(display.StringNumber(num_sampled))
-      + ' letters picked without replacement from '
+      + ' huruf diambil tanpa pengganti dari '
       + sample.bag_contents)
 
   return sample.letters_distinct, space, random_variable
@@ -235,10 +235,10 @@ def _sample_without_replacement_probability_question(
   context = composition.Context()
 
   template = random.choice([
-      '{random_variable_capitalize}. What is prob of {event}?',
-      '{random_variable_capitalize}. Give prob of {event}.',
-      'What is prob of {event} when {random_variable}?',
-      'Calculate prob of {event} when {random_variable}.',
+      '{random_variable_capitalize}. Berapa probabilitas {event}?',
+      '{random_variable_capitalize}. Beri probabilitas dari {event}.',
+      'Berapa probabilitas dari {event} ketika {random_variable}?',
+      'Hitung probabilitas dari {event} ketika {random_variable}.',
   ])
   question = example.question(
       context,

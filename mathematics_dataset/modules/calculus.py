@@ -86,26 +86,25 @@ def _generate_polynomial(num_variables, entropy, derivative_order,
 def _template(module_count, derivative_order, num_variables):
   """Selects appropriate template."""
   templates = [
-      'Find the {nth} derivative of {eq} wrt {var}.',
-      'What is the {nth} derivative of {eq} wrt {var}?',
+      'Temukan turunan {nth} dari {eq} yang terkait dengan {var}.',
+      'Apa turunan {nth} dari {eq} sehubungan dengan {var}?',
   ]
   if derivative_order == 1:
     templates += [
-        'Differentiate {eq} with respect to {var}.',
-        'Differentiate {eq} wrt {var}.',
-        'What is the derivative of {eq} wrt {var}?',
+        'Diferensial yang {eq} sehubungan dengan {var}.',
+        'Apa turunan dari {eq} sehubungan dengan {var}?',
     ]
 
   derivative_variable_is_unambiguous = num_variables == 1 and module_count == 1
   if derivative_variable_is_unambiguous:
     templates += [
-        'Find the {nth} derivative of {eq}.',
-        'What is the {nth} derivative of {eq}?',
+        'Temukan turunan {nth} dari {eq}.',
+        'Apa turunan {nth} dari {eq}?',
     ]
     if derivative_order == 1:
       templates += [
-          'Differentiate {eq}.',
-          'What is the derivative of {eq}?',
+          'Diferensial dari {eq}.',
+          'Apa turunan dari {eq}?',
       ]
 
   return random.choice(templates)
@@ -183,7 +182,7 @@ def _differentiate_polynomial(value, sample_args, context, num_variables):
     return composition.Entity(
         context=context,
         value=composition.Polynomial(value),
-        description='Let {fn}({variables}) be the {nth} derivative of {eq}.',
+        description='Misalkan {fn} ({variables}) menjadi turunan ke-{nth} dari {eq}.',
         handle=composition.FunctionHandle(fn_symbol),
         fn=fn_symbol, variables=variables_string, nth=nth, eq=polynomial)
 

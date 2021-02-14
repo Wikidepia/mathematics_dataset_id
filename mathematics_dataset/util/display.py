@@ -36,41 +36,41 @@ import sympy
 
 # For converting integers to words:
 _INTEGER_LOW = [
-    'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
-    'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteeen', 'fifteen',
-    'sixteen', 'seventeen', 'eighteen', 'nineteen'
+    'nol', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan',
+    'sembilan', 'sepuluh', 'sebelas', 'dua belas', 'tiga belas', 'empat belas', 'lima belas',
+    'enam belas', 'tujuh belas', 'delapan belas', 'sembilan belas'
 ]
 _INTEGER_MID = [
-    '', '', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty',
-    'ninety'
+    '', '', 'dua puluh', 'tiga puluh', 'empat puluh', 'lima puluh', 'enam puluh', 'tujuh puluh', 'delapan puluh',
+    'sembilan puluh'
 ]
 _INTEGER_HIGH = [
-    (int(1e12), 'trillion'), (int(1e9), 'billion'), (int(1e6), 'million'),
-    (int(1e3), 'thousand'), (100, 'hundred')
+    (int(1e12), 'triliun'), (int(1e9), 'miliar'), (int(1e6), 'juta'),
+    (int(1e3), 'ribu'), (100, 'ratus')
 ]
 
 
 # For converting rationals to words:
 _SINGULAR_DENOMINATORS = [
-    '', '', 'half', 'third', 'quarter', 'fifth', 'sixth', 'seventh', 'eighth',
-    'ninth', 'tenth', 'eleventh', 'twelth', 'thirteenth', 'fourteenth',
-    'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth',
-    'twentieth'
+    '', '', 'setengah', 'ketiga', 'seperempat', 'kelima', 'keenam', 'ketujuh', 'kedelapan',
+     'kesembilan', 'kesepuluh', 'kesebelas', 'kedua belas', 'ketiga belas', 'empat belas',
+     'lima belas', 'keenam belas', 'ketujuh belas', 'delapan belas', 'sembilan belas',
+     'keduapuluh'
 ]
 _PLURAL_DENOMINATORS = [
-    '', '', 'halves', 'thirds', 'quarters', 'fifths', 'sixths', 'sevenths',
-    'eighths', 'ninths', 'tenths', 'elevenths', 'twelths', 'thirteenths',
-    'fourteenths', 'fifteenths', 'sixteenths', 'seventeenths', 'eighteenths',
-    'nineteenths', 'twentieths'
+    '', '', 'setengah', 'sepertiga', 'seperempat', 'kelima', 'keenam', 'ketujuh',
+     'delapan', 'kesembilan', 'persepuluh', 'sebelas', 'dua belas', 'tiga belas',
+     'empat belas', 'lima belas', 'enam belas', 'tujuh belas', 'delapan belas',
+     'sembilan belas', 'dua puluh'
 ]
 
 
 # For converting ordinals to words:
 _ORDINALS = [
-    'zeroth', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh',
-    'eighth', 'ninth', 'tenth', 'eleventh', 'twelth', 'thirteenth',
-    'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth',
-    'nineteenth', 'twentieth'
+      'nol', 'pertama', 'kedua', 'ketiga', 'keempat', 'kelima', 'keenam', 'ketujuh',
+     'kedelapan', 'kesembilan', 'kesepuluh', 'kesebelas', 'kedua belas', 'ketiga belas',
+     'empat belas', 'lima belas', 'enam belas', 'tujuh belas', 'delapan belas',
+     'sembilan belas', 'dua puluh'
 ]
 
 
